@@ -9,7 +9,6 @@ pasta_projeto = Path(__file__).parent
 caminho_senha = pasta_projeto / 'senha.txt'
 
 class CaixaEletronico:
-    senha = []
     caixa = 1000
 
     def __init__(self, saldo):
@@ -41,12 +40,14 @@ class CaixaEletronico:
                 if password == conteudo:
                     pass
                 else:
+                    tentativa = 0
                     while password != conteudo:
+                        tentativa += 1
+                        print(f'\033[31mTentativa {tentativa} de 3\033[m')
                         password = input('\033[31mSenha incorreta! Tente novamente: \033[m')
-
-
-        
-        self.senha.append(password)
+                        if tentativa == 2:
+                            print('\033[31mAcesso bloqueado\033[m')
+                            exit()
    
 
     def consultar_saldo(self):
@@ -66,7 +67,8 @@ class CaixaEletronico:
             print('\033[31mO saque não pode ser efetuado\033[m')
 
     def alterar_senha(self, password):
-        self.mudar_senha = password
+        with open(caminho_senha, "w") as arquivo:
+            arquivo.write(password)
   
 
 
@@ -85,9 +87,17 @@ while True:
     escolha = int(input('Sua opção: '))
     if escolha == 1:
         caixa_eletronico.consultar_saldo()
-    if escolha == 2:
+    elif escolha == 2:
         valor_saque = int(input('Quantos deseja sacar: '))
         caixa_eletronico.sacar(valor_saque)
-
-    if escolha == 5:
+    elif escolha == 3:
+        valor_deposito = int(input('Quantos deseja depositar: '))
+        caixa_eletronico.deposito(valor_deposito)
+    elif escolha == 4:
+        troca_de_senha = input('Nova senha: ')
+        caixa_eletronico.alterar_senha(troca_de_senha)
+    elif escolha == 5:
         break
+    else:
+        break
+print('\033[33mVolte sempre!\033[m')
