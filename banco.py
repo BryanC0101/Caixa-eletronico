@@ -26,8 +26,6 @@ class CaixaEletronico:
         console.print(Panel.fit(texto, title="Menu", border_style="green"))
 
     def pedir_senha(self):
-    # Essa funcionalidade será executada sempre no inicio do programa
-    # A primeira vez pedirá uma "Nova Senha"
         password = input('Digite sua senha: ')
 
         with open(caminho_senha, 'r') as arquivo:
@@ -56,11 +54,9 @@ class CaixaEletronico:
 
 
     def deposito(self, dinheiro):
-    # Aqui será executado o saque, dependendo da quantidade de dinheiro no caixa
         self.saldo += dinheiro
 
     def sacar(self, dinheiro):
-    # Aqui o depósito é ilimitado, dependendo do dinheiro do usuário
         if (self.saldo - dinheiro) >= 0:
             self.saldo -= dinheiro
         else:
