@@ -2,10 +2,11 @@
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import track
+from pathlib import Path
 import time
 console = Console()
-
-
+pasta_projeto = Path(__file__).parent
+caminho_senha = pasta_projeto / 'senha.txt'
 
 class CaixaEletronico:
     senha = []
@@ -29,6 +30,22 @@ class CaixaEletronico:
     # Essa funcionalidade será executada sempre no inicio do programa
     # A primeira vez pedirá uma "Nova Senha"
         password = input('Digite sua senha: ')
+
+        with open(caminho_senha, 'r') as arquivo:
+            conteudo = arquivo.read()
+            if conteudo.strip() == '':
+                with open(caminho_senha, 'a') as arquivo:
+                    arquivo.write(password)
+                print('\033[32mSenha criada com sucesso\033[m')
+            else:
+                if password == conteudo:
+                    pass
+                else:
+                    while password != conteudo:
+                        password = input('\033[31mSenha incorreta! Tente novamente: \033[m')
+
+
+        
         self.senha.append(password)
    
 
@@ -47,12 +64,10 @@ class CaixaEletronico:
             self.saldo -= dinheiro
         else:
             print('\033[31mO saque não pode ser efetuado\033[m')
-'''
-    def alterar_senha():
 
+    def alterar_senha(self, password):
+        self.mudar_senha = password
   
-
-    '''
 
 
 
